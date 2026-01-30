@@ -43,6 +43,16 @@
             font-family: 'Cormorant Garamond', serif;
         }
         
+        /* Language System - FIXED */
+        .lang-es { display: block; }
+        .lang-en { display: none; }
+        body.en .lang-es { display: none; }
+        body.en .lang-en { display: block; }
+        
+        span.lang-es, span.lang-en { display: inline; }
+        body.en span.lang-es { display: none; }
+        body:not(.en) span.lang-en { display: none; }
+        
         /* Navigation */
         nav {
             position: fixed;
@@ -63,6 +73,7 @@
         nav.scrolled {
             padding: 1rem 4rem;
             background: rgba(250, 247, 242, 0.98);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
         
         .logo {
@@ -75,6 +86,12 @@
         
         .logo span {
             color: var(--gold);
+        }
+        
+        .nav-right {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
         }
         
         .nav-cta {
@@ -115,6 +132,37 @@
         
         .nav-cta:hover {
             color: var(--charcoal);
+        }
+        
+        /* Language Toggle */
+        .lang-toggle {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+            background: rgba(0,0,0,0.05);
+            border-radius: 8px;
+            padding: 0.25rem;
+        }
+        
+        .lang-btn {
+            background: transparent;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            color: var(--accent);
+        }
+        
+        .lang-btn.active {
+            background: var(--charcoal);
+            color: var(--cream);
+        }
+        
+        .lang-btn:hover:not(.active) {
+            background: rgba(0,0,0,0.1);
         }
         
         /* Sections */
@@ -171,8 +219,8 @@
             opacity: 0.8;
             max-width: 600px;
             margin: 0 auto 3rem;
-            opacity: 0;
             animation: fadeUp 1s ease 0.7s forwards;
+            animation-fill-mode: both;
         }
         
         .hero-cta {
@@ -196,6 +244,8 @@
         .hero-cta:hover {
             background: var(--gold);
             color: var(--charcoal);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(201, 169, 98, 0.3);
         }
         
         .hero-bg {
@@ -204,7 +254,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            opacity: 0.1;
+            opacity: 0.15;
             background: 
                 radial-gradient(circle at 20% 80%, var(--gold) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, var(--sage) 0%, transparent 50%);
@@ -262,6 +312,12 @@
             font-style: italic;
         }
         
+        .problem-content > p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            opacity: 0.8;
+        }
+        
         .problem-stats {
             display: flex;
             flex-direction: column;
@@ -297,7 +353,7 @@
             margin-top: 0.5rem;
         }
         
-        /* Scenario Section - The Pain */
+        /* Scenario Section */
         .scenario {
             background: var(--charcoal);
             color: var(--cream);
@@ -371,15 +427,22 @@
         .lost-indicator {
             text-align: center;
             margin-top: 2rem;
-            padding: 1rem;
+            padding: 1.5rem;
             border: 1px dashed rgba(255,255,255,0.2);
             border-radius: 10px;
+            background: rgba(229, 115, 115, 0.1);
         }
         
         .lost-indicator .amount {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: #E57373;
+            font-weight: 500;
+        }
+        
+        .lost-indicator p {
+            margin-top: 0.5rem;
+            opacity: 0.8;
         }
         
         /* Solution Section */
@@ -396,6 +459,11 @@
             font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 400;
             margin-bottom: 1rem;
+        }
+        
+        .solution h2 em {
+            color: var(--gold);
+            font-style: italic;
         }
         
         .solution-subtitle {
@@ -434,6 +502,7 @@
         
         .feature-card:hover {
             transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.12);
         }
         
         .feature-card:hover::before {
@@ -441,19 +510,20 @@
         }
         
         .feature-icon {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             background: var(--cream);
-            border-radius: 15px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1.5rem;
-            font-size: 1.5rem;
+            font-size: 2rem;
         }
         
         .feature-card h3 {
-            font-size: 1.3rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
             font-weight: 500;
             margin-bottom: 1rem;
         }
@@ -484,16 +554,22 @@
             margin-bottom: 1.5rem;
         }
         
+        .demo-content h2 em {
+            color: var(--gold);
+            font-style: italic;
+        }
+        
         .demo-content p {
             opacity: 0.8;
             margin-bottom: 2rem;
             font-size: 1.05rem;
+            line-height: 1.8;
         }
         
         .demo-phone {
             background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
             border-radius: 40px;
-            padding: 1rem;
+            padding: 0.75rem;
             box-shadow: 
                 0 50px 100px rgba(0,0,0,0.5),
                 inset 0 1px 0 rgba(255,255,255,0.1);
@@ -503,7 +579,7 @@
         
         .phone-screen {
             background: #075E54;
-            border-radius: 30px;
+            border-radius: 32px;
             overflow: hidden;
         }
         
@@ -525,6 +601,7 @@
             justify-content: center;
             font-weight: 600;
             color: var(--charcoal);
+            font-size: 0.9rem;
         }
         
         .phone-name {
@@ -539,20 +616,24 @@
         .phone-chat {
             padding: 1rem;
             min-height: 400px;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background: #ECE5DD url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
         
         .chat-message {
-            max-width: 80%;
-            padding: 0.75rem 1rem;
-            border-radius: 10px;
-            font-size: 0.9rem;
+            max-width: 85%;
+            padding: 0.6rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            line-height: 1.4;
             opacity: 0;
             transform: translateY(20px);
-            animation: chatPop 0.5s ease forwards;
+        }
+        
+        .chat-message.show {
+            animation: chatPop 0.4s ease forwards;
         }
         
         .chat-message.incoming {
@@ -560,6 +641,7 @@
             color: var(--charcoal);
             align-self: flex-start;
             border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
         
         .chat-message.outgoing {
@@ -567,14 +649,8 @@
             color: var(--charcoal);
             align-self: flex-end;
             border-bottom-right-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-        
-        .chat-message:nth-child(1) { animation-delay: 0.5s; }
-        .chat-message:nth-child(2) { animation-delay: 1.5s; }
-        .chat-message:nth-child(3) { animation-delay: 2.5s; }
-        .chat-message:nth-child(4) { animation-delay: 3.5s; }
-        .chat-message:nth-child(5) { animation-delay: 4.5s; }
-        .chat-message:nth-child(6) { animation-delay: 5.5s; }
         
         .typing-indicator {
             display: flex;
@@ -584,7 +660,11 @@
             border-radius: 10px;
             width: fit-content;
             opacity: 0;
-            animation: chatPop 0.5s ease 6s forwards;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .typing-indicator.show {
+            animation: chatPop 0.4s ease forwards;
         }
         
         .typing-dot {
@@ -614,6 +694,11 @@
             margin-bottom: 3rem;
         }
         
+        .roi h2 em {
+            color: var(--gold);
+            font-style: italic;
+        }
+        
         .roi-calculator {
             background: white;
             padding: 3rem;
@@ -626,6 +711,7 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
             margin-bottom: 3rem;
+            align-items: center;
         }
         
         .roi-item {
@@ -729,6 +815,7 @@
         }
         
         .phase-content h3 {
+            font-family: 'Cormorant Garamond', serif;
             font-size: 1.4rem;
             font-weight: 500;
             margin-bottom: 0.5rem;
@@ -738,6 +825,7 @@
             font-size: 0.85rem;
             color: var(--gold);
             margin-bottom: 1rem;
+            font-weight: 500;
         }
         
         .phase-content p {
@@ -768,7 +856,7 @@
             font-style: italic;
         }
         
-        .cta p {
+        .cta > p, .cta-content > p {
             font-size: 1.1rem;
             opacity: 0.8;
             margin-bottom: 3rem;
@@ -784,12 +872,12 @@
         .cta-primary {
             background: var(--gradient-gold);
             color: var(--charcoal);
-            padding: 1.2rem 3rem;
+            padding: 1.2rem 2.5rem;
             border: none;
             font-family: 'DM Sans', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.4s ease;
@@ -797,25 +885,27 @@
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
+            border-radius: 4px;
         }
         
         .cta-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 40px rgba(201, 169, 98, 0.3);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 20px 40px rgba(201, 169, 98, 0.4);
         }
         
         .cta-secondary {
             background: transparent;
             color: var(--cream);
-            padding: 1.2rem 3rem;
+            padding: 1.2rem 2.5rem;
             border: 1px solid rgba(255,255,255,0.3);
             font-family: 'DM Sans', sans-serif;
-            font-size: 1rem;
-            letter-spacing: 0.1em;
+            font-size: 0.95rem;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.4s ease;
             text-decoration: none;
+            border-radius: 4px;
         }
         
         .cta-secondary:hover {
@@ -842,12 +932,24 @@
         
         .cta-whatsapp:hover {
             transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.5);
         }
         
         .cta-whatsapp svg {
             width: 30px;
             height: 30px;
             fill: white;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 2rem 4rem;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.6;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
         
         /* Animations */
@@ -870,7 +972,7 @@
         @keyframes chatPop {
             from {
                 opacity: 0;
-                transform: translateY(20px) scale(0.9);
+                transform: translateY(10px) scale(0.95);
             }
             to {
                 opacity: 1;
@@ -880,17 +982,17 @@
         
         @keyframes typingBounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            50% { transform: translateY(-4px); }
         }
         
         /* Responsive */
         @media (max-width: 968px) {
             nav {
-                padding: 1rem 2rem;
+                padding: 1rem 1.5rem;
             }
             
             section {
-                padding: 4rem 2rem;
+                padding: 4rem 1.5rem;
             }
             
             .problem-grid,
@@ -908,12 +1010,21 @@
                 gap: 1.5rem;
             }
             
-            .phase-timeline::before {
+            .roi-grid .roi-item:nth-child(2) {
                 display: none;
             }
             
+            .phase-timeline::before {
+                left: 20px;
+            }
+            
+            .phase-marker {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
             .phase-item {
-                flex-direction: column;
                 gap: 1rem;
             }
             
@@ -921,46 +1032,26 @@
                 flex-direction: column;
                 align-items: center;
             }
+            
+            .cta-primary, .cta-secondary {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
         }
-        
-        /* Language Toggle */
-        .lang-toggle {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-        
-        .lang-btn {
-            background: transparent;
-            border: 1px solid rgba(0,0,0,0.2);
-            padding: 0.4rem 0.8rem;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .lang-btn.active {
-            background: var(--charcoal);
-            color: var(--cream);
-            border-color: var(--charcoal);
-        }
-        
-        [data-lang="en"] { display: none; }
-        body.en [data-lang="en"] { display: block; }
-        body.en [data-lang="es"] { display: none; }
     </style>
 </head>
 <body>
     <nav id="navbar">
         <div class="logo">Machine<span>Mind</span></div>
-        <div style="display: flex; gap: 1.5rem; align-items: center;">
+        <div class="nav-right">
             <div class="lang-toggle">
-                <button class="lang-btn active" onclick="setLang('es')">ES</button>
-                <button class="lang-btn" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active" id="btn-es" onclick="setLang('es')">ES</button>
+                <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
             </div>
             <button class="nav-cta" onclick="scrollToSection('cta')">
-                <span data-lang="es">Agendar Demo</span>
-                <span data-lang="en">Book Demo</span>
+                <span class="lang-es">Agendar Demo</span>
+                <span class="lang-en">Book Demo</span>
             </button>
         </div>
     </nav>
@@ -970,28 +1061,28 @@
         <div class="hero-bg"></div>
         <div class="hero-content">
             <p class="hero-eyebrow">
-                <span data-lang="es">Propuesta Exclusiva para Verónica Safie</span>
-                <span data-lang="en">Exclusive Proposal for Verónica Safie</span>
+                <span class="lang-es">Propuesta Exclusiva para Verónica Safie</span>
+                <span class="lang-en">Exclusive Proposal for Verónica Safie</span>
             </p>
             <h1>
-                <span data-lang="es">Cada consulta de franquicia a las <em>2 AM</em> es un imperio que no construiste</span>
-                <span data-lang="en">Every franchise inquiry at <em>2 AM</em> is an empire you didn't build</span>
+                <span class="lang-es">Cada consulta de franquicia a las <em>2 AM</em> es un imperio que no construiste</span>
+                <span class="lang-en">Every franchise inquiry at <em>2 AM</em> is an empire you didn't build</span>
             </h1>
             <p class="hero-subtitle">
-                <span data-lang="es">Tus marcas merecen una inteligencia que nunca duerme. Conoce a Sofia — tu equipo de ventas que trabaja mientras tú descansas.</span>
-                <span data-lang="en">Your brands deserve an intelligence that never sleeps. Meet Sofia — your sales team that works while you rest.</span>
+                <span class="lang-es">Tus marcas merecen una inteligencia que nunca duerme. Conoce a Sofia — tu equipo de ventas que trabaja mientras tú descansas.</span>
+                <span class="lang-en">Your brands deserve an intelligence that never sleeps. Meet Sofia — your sales team that works while you rest.</span>
             </p>
             <button class="hero-cta" onclick="scrollToSection('problem')">
-                <span data-lang="es">Ver la Oportunidad</span>
-                <span data-lang="en">See the Opportunity</span>
+                <span class="lang-es">Ver la Oportunidad</span>
+                <span class="lang-en">See the Opportunity</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M12 5v14M19 12l-7 7-7-7"/>
                 </svg>
             </button>
         </div>
         <div class="scroll-indicator">
-            <span data-lang="es">Descubre</span>
-            <span data-lang="en">Discover</span>
+            <span class="lang-es">Descubre</span>
+            <span class="lang-en">Discover</span>
             <div class="scroll-line"></div>
         </div>
     </section>
@@ -1001,27 +1092,27 @@
         <div class="problem-grid">
             <div class="problem-content">
                 <h2>
-                    <span data-lang="es">Las franquicias de <em>Vanilla Spoon</em> están preguntando.<br>¿Quién está respondiendo?</span>
-                    <span data-lang="en"><em>Vanilla Spoon</em> franchises are asking.<br>Who's answering?</span>
+                    <span class="lang-es">Las franquicias de <em>Vanilla Spoon</em> están preguntando.<br>¿Quién está respondiendo?</span>
+                    <span class="lang-en"><em>Vanilla Spoon</em> franchises are asking.<br>Who's answering?</span>
                 </h2>
-                <p data-lang="es">Cuando un inversionista en Miami escribe a las 11 PM su hora — son las 10 PM en El Salvador. Tu equipo ya cerró. Ese lead de $200K+ esperará hasta mañana. Si no encontró a tu competencia primero.</p>
-                <p data-lang="en">When an investor in Miami writes at 11 PM their time — it's 10 PM in El Salvador. Your team closed. That $200K+ lead will wait until tomorrow. If they haven't found your competition first.</p>
+                <p class="lang-es">Cuando un inversionista en Miami escribe a las 11 PM su hora — son las 10 PM en El Salvador. Tu equipo ya cerró. Ese lead de $200K+ esperará hasta mañana. Si no encontró a tu competencia primero.</p>
+                <p class="lang-en">When an investor in Miami writes at 11 PM their time — it's 10 PM in El Salvador. Your team closed. That $200K+ lead will wait until tomorrow. If they haven't found your competition first.</p>
             </div>
             <div class="problem-stats">
                 <div class="stat-card">
                     <div class="stat-number">78%</div>
-                    <div class="stat-label" data-lang="es">de los leads eligen la empresa que responde primero</div>
-                    <div class="stat-label" data-lang="en">of leads choose the company that responds first</div>
+                    <div class="stat-label lang-es">de los leads eligen la empresa que responde primero</div>
+                    <div class="stat-label lang-en">of leads choose the company that responds first</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">5 min</div>
-                    <div class="stat-label" data-lang="es">ventana crítica antes de perder el interés del lead</div>
-                    <div class="stat-label" data-lang="en">critical window before losing lead interest</div>
+                    <div class="stat-label lang-es">ventana crítica antes de perder el interés del lead</div>
+                    <div class="stat-label lang-en">critical window before losing lead interest</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">$150K+</div>
-                    <div class="stat-label" data-lang="es">valor promedio de cada franquicia perdida</div>
-                    <div class="stat-label" data-lang="en">average value of each lost franchise</div>
+                    <div class="stat-label lang-es">valor promedio de cada franquicia perdida</div>
+                    <div class="stat-label lang-en">average value of each lost franchise</div>
                 </div>
             </div>
         </div>
@@ -1031,50 +1122,45 @@
     <section class="scenario" id="scenario">
         <div class="scenario-content">
             <h2>
-                <span data-lang="es">
-                    <span class="scenario-time">Viernes, 11:47 PM</span><br>
-                    Un inversionista de Texas escribe a Vanilla Spoon
-                </span>
-                <span data-lang="en">
-                    <span class="scenario-time">Friday, 11:47 PM</span><br>
-                    A Texas investor messages Vanilla Spoon
-                </span>
+                <span class="lang-es"><span class="scenario-time">Viernes, 11:47 PM</span><br>Un inversionista de Texas escribe a Vanilla Spoon</span>
+                <span class="lang-en"><span class="scenario-time">Friday, 11:47 PM</span><br>A Texas investor messages Vanilla Spoon</span>
             </h2>
             
             <div class="message-simulation">
                 <div class="message">
                     <div class="message-bubble incoming">
-                        <span data-lang="es">"Hola, vi su helado en Instagram. Tengo 3 locales en Houston y me interesa la franquicia. ¿Tienen info?"</span>
-                        <span data-lang="en">"Hi, I saw your ice cream on Instagram. I have 3 locations in Houston and I'm interested in the franchise. Do you have info?"</span>
+                        <span class="lang-es">"Hola, vi su helado en Instagram. Tengo 3 locales en Houston y me interesa la franquicia. ¿Tienen info?"</span>
+                        <span class="lang-en">"Hi, I saw your ice cream on Instagram. I have 3 locations in Houston and I'm interested in the franchise. Do you have info?"</span>
                         <div class="message-time">11:47 PM</div>
                     </div>
                 </div>
                 <div class="message">
                     <div class="message-bubble">
-                        <span data-lang="es">Sin respuesta...</span>
-                        <span data-lang="en">No response...</span>
+                        <span class="lang-es">Sin respuesta...</span>
+                        <span class="lang-en">No response...</span>
                         <div class="message-time">11:48 PM</div>
                     </div>
                 </div>
                 <div class="message">
                     <div class="message-bubble">
-                        <span data-lang="es">El equipo está dormido</span>
-                        <span data-lang="en">Team is sleeping</span>
+                        <span class="lang-es">El equipo está dormido</span>
+                        <span class="lang-en">Team is sleeping</span>
                         <div class="message-time">12:30 AM</div>
                     </div>
                 </div>
                 <div class="message">
                     <div class="message-bubble incoming">
-                        <span data-lang="es">"Bueno, también me interesa otra marca de helado artesanal que vi..."</span>
-                        <span data-lang="en">"Well, I'm also interested in another artisan ice cream brand I saw..."</span>
-                        <div class="message-time">8:15 AM (día siguiente)</div>
+                        <span class="lang-es">"Bueno, también me interesa otra marca de helado artesanal que vi..."</span>
+                        <span class="lang-en">"Well, I'm also interested in another artisan ice cream brand I saw..."</span>
+                        <div class="message-time lang-es">8:15 AM (día siguiente)</div>
+                        <div class="message-time lang-en">8:15 AM (next day)</div>
                     </div>
                 </div>
                 
                 <div class="lost-indicator">
                     <div class="amount">-$200,000</div>
-                    <p data-lang="es">Oportunidad perdida. Un competidor respondió a las 7 AM.</p>
-                    <p data-lang="en">Opportunity lost. A competitor responded at 7 AM.</p>
+                    <p class="lang-es">Oportunidad perdida. Un competidor respondió a las 7 AM.</p>
+                    <p class="lang-en">Opportunity lost. A competitor responded at 7 AM.</p>
                 </div>
             </div>
         </div>
@@ -1084,35 +1170,35 @@
     <section class="solution" id="solution">
         <div class="solution-content">
             <h2>
-                <span data-lang="es">Conoce a <em>Sofia</em></span>
-                <span data-lang="en">Meet <em>Sofia</em></span>
+                <span class="lang-es">Conoce a <em>Sofia</em></span>
+                <span class="lang-en">Meet <em>Sofia</em></span>
             </h2>
             <p class="solution-subtitle">
-                <span data-lang="es">Tu ejecutiva de ventas que trabaja 24/7, nunca pide vacaciones, y mejora cada día.</span>
-                <span data-lang="en">Your sales executive that works 24/7, never asks for vacation, and improves every day.</span>
+                <span class="lang-es">Tu ejecutiva de ventas que trabaja 24/7, nunca pide vacaciones, y mejora cada día.</span>
+                <span class="lang-en">Your sales executive that works 24/7, never asks for vacation, and improves every day.</span>
             </p>
             
             <div class="solution-features">
                 <div class="feature-card">
                     <div class="feature-icon">🌙</div>
-                    <h3 data-lang="es">Respuesta Instantánea</h3>
-                    <h3 data-lang="en">Instant Response</h3>
-                    <p data-lang="es">Responde en segundos, no en horas. A cualquier hora. En español, inglés, o ambos.</p>
-                    <p data-lang="en">Responds in seconds, not hours. Any time. In Spanish, English, or both.</p>
+                    <h3 class="lang-es">Respuesta Instantánea</h3>
+                    <h3 class="lang-en">Instant Response</h3>
+                    <p class="lang-es">Responde en segundos, no en horas. A cualquier hora. En español, inglés, o ambos.</p>
+                    <p class="lang-en">Responds in seconds, not hours. Any time. In Spanish, English, or both.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎯</div>
-                    <h3 data-lang="es">Calificación Inteligente</h3>
-                    <h3 data-lang="en">Intelligent Qualification</h3>
-                    <p data-lang="es">Identifica leads serios vs curiosos. Te pasa solo los que valen tu tiempo.</p>
-                    <p data-lang="en">Identifies serious leads vs curious ones. Passes you only those worth your time.</p>
+                    <h3 class="lang-es">Calificación Inteligente</h3>
+                    <h3 class="lang-en">Intelligent Qualification</h3>
+                    <p class="lang-es">Identifica leads serios vs curiosos. Te pasa solo los que valen tu tiempo.</p>
+                    <p class="lang-en">Identifies serious leads vs curious ones. Passes you only those worth your time.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📈</div>
-                    <h3 data-lang="es">Auto-Evolución</h3>
-                    <h3 data-lang="en">Self-Evolution</h3>
-                    <p data-lang="es">Aprende de cada conversación. Se vuelve más efectiva cada semana.</p>
-                    <p data-lang="en">Learns from every conversation. Becomes more effective every week.</p>
+                    <h3 class="lang-es">Auto-Evolución</h3>
+                    <h3 class="lang-en">Self-Evolution</h3>
+                    <p class="lang-es">Aprende de cada conversación. Se vuelve más efectiva cada semana.</p>
+                    <p class="lang-en">Learns from every conversation. Becomes more effective every week.</p>
                 </div>
             </div>
         </div>
@@ -1123,11 +1209,11 @@
         <div class="demo-container">
             <div class="demo-content">
                 <h2>
-                    <span data-lang="es">Así se ve cuando <em>Sofia</em> responde</span>
-                    <span data-lang="en">This is what it looks like when <em>Sofia</em> responds</span>
+                    <span class="lang-es">Así se ve cuando <em>Sofia</em> responde</span>
+                    <span class="lang-en">This is what it looks like when <em>Sofia</em> responds</span>
                 </h2>
-                <p data-lang="es">El mismo escenario. Pero ahora Sofia está al frente. Mira la diferencia.</p>
-                <p data-lang="en">Same scenario. But now Sofia is at the front. See the difference.</p>
+                <p class="lang-es">El mismo escenario. Pero ahora Sofia está al frente. Mira la diferencia.</p>
+                <p class="lang-en">Same scenario. But now Sofia is at the front. See the difference.</p>
             </div>
             <div class="demo-phone">
                 <div class="phone-screen">
@@ -1138,32 +1224,32 @@
                             <div class="phone-status">Online</div>
                         </div>
                     </div>
-                    <div class="phone-chat">
+                    <div class="phone-chat" id="phone-chat">
                         <div class="chat-message incoming">
-                            <span data-lang="es">Hola, vi su helado en Instagram. Tengo 3 locales en Houston y me interesa la franquicia. ¿Tienen info?</span>
-                            <span data-lang="en">Hi, I saw your ice cream on Instagram. I have 3 locations in Houston and I'm interested in the franchise. Do you have info?</span>
+                            <span class="lang-es">Hola, vi su helado en Instagram. Tengo 3 locales en Houston y me interesa la franquicia. ¿Tienen info?</span>
+                            <span class="lang-en">Hi, I saw your ice cream on Instagram. I have 3 locations in Houston and I'm interested in the franchise. Do you have info?</span>
                         </div>
                         <div class="chat-message outgoing">
-                            <span data-lang="es">¡Hola! 🍦 Qué gusto saber de ti. 3 locales en Houston suena increíble — ¿son restaurantes, cafés, o tiendas?</span>
-                            <span data-lang="en">Hi! 🍦 Great to hear from you. 3 locations in Houston sounds amazing — are they restaurants, cafes, or retail?</span>
+                            <span class="lang-es">¡Hola! 🍦 Qué gusto saber de ti. 3 locales en Houston suena increíble — ¿son restaurantes, cafés, o tiendas?</span>
+                            <span class="lang-en">Hi! 🍦 Great to hear from you. 3 locations in Houston sounds amazing — are they restaurants, cafes, or retail?</span>
                         </div>
                         <div class="chat-message incoming">
-                            <span data-lang="es">Dos son cafés y uno es un food hall</span>
-                            <span data-lang="en">Two are cafes and one is a food hall</span>
+                            <span class="lang-es">Dos son cafés y uno es un food hall</span>
+                            <span class="lang-en">Two are cafes and one is a food hall</span>
                         </div>
                         <div class="chat-message outgoing">
-                            <span data-lang="es">Perfecto. Los food halls son ideales para Vanilla Spoon — alto tráfico, margen premium. ¿Qué tan pronto buscarías lanzar?</span>
-                            <span data-lang="en">Perfect. Food halls are ideal for Vanilla Spoon — high traffic, premium margin. How soon would you be looking to launch?</span>
+                            <span class="lang-es">Perfecto. Los food halls son ideales para Vanilla Spoon — alto tráfico, margen premium. ¿Qué tan pronto buscarías lanzar?</span>
+                            <span class="lang-en">Perfect. Food halls are ideal for Vanilla Spoon — high traffic, premium margin. How soon would you be looking to launch?</span>
                         </div>
                         <div class="chat-message incoming">
-                            <span data-lang="es">Q2 de este año si todo se alinea</span>
-                            <span data-lang="en">Q2 this year if everything aligns</span>
+                            <span class="lang-es">Q2 de este año si todo se alinea</span>
+                            <span class="lang-en">Q2 this year if everything aligns</span>
                         </div>
                         <div class="chat-message outgoing">
-                            <span data-lang="es">Timeline perfecto. Te conecto con Verónica esta semana para hablar números. ¿Miércoles o jueves te funciona mejor?</span>
-                            <span data-lang="en">Perfect timeline. I'll connect you with Verónica this week to talk numbers. Does Wednesday or Thursday work better?</span>
+                            <span class="lang-es">Timeline perfecto. Te conecto con Verónica esta semana para hablar números. ¿Miércoles o jueves te funciona mejor?</span>
+                            <span class="lang-en">Perfect timeline. I'll connect you with Verónica this week to talk numbers. Does Wednesday or Thursday work better?</span>
                         </div>
-                        <div class="typing-indicator">
+                        <div class="typing-indicator" id="typing">
                             <div class="typing-dot"></div>
                             <div class="typing-dot"></div>
                             <div class="typing-dot"></div>
@@ -1178,16 +1264,16 @@
     <section class="roi" id="roi">
         <div class="roi-content">
             <h2>
-                <span data-lang="es">El Retorno es <em>Obvio</em></span>
-                <span data-lang="en">The Return is <em>Obvious</em></span>
+                <span class="lang-es">El Retorno es <em>Obvio</em></span>
+                <span class="lang-en">The Return is <em>Obvious</em></span>
             </h2>
             
             <div class="roi-calculator">
                 <div class="roi-grid">
                     <div class="roi-item">
                         <div class="roi-value">5</div>
-                        <div class="roi-label" data-lang="es">Leads perdidos al mes por respuesta lenta</div>
-                        <div class="roi-label" data-lang="en">Leads lost monthly due to slow response</div>
+                        <div class="roi-label lang-es">Leads perdidos al mes por respuesta lenta</div>
+                        <div class="roi-label lang-en">Leads lost monthly due to slow response</div>
                     </div>
                     <div class="roi-item">
                         <div class="roi-value">×</div>
@@ -1195,14 +1281,14 @@
                     </div>
                     <div class="roi-item">
                         <div class="roi-value">$150K</div>
-                        <div class="roi-label" data-lang="es">Valor promedio por franquicia</div>
-                        <div class="roi-label" data-lang="en">Average franchise value</div>
+                        <div class="roi-label lang-es">Valor promedio por franquicia</div>
+                        <div class="roi-label lang-en">Average franchise value</div>
                     </div>
                 </div>
                 <div class="roi-total">
                     <div class="roi-value">$750K+</div>
-                    <div class="roi-label" data-lang="es">Oportunidad anual que estás dejando escapar</div>
-                    <div class="roi-label" data-lang="en">Annual opportunity you're letting slip away</div>
+                    <div class="roi-label lang-es">Oportunidad anual que estás dejando escapar</div>
+                    <div class="roi-label lang-en">Annual opportunity you're letting slip away</div>
                 </div>
             </div>
         </div>
@@ -1212,42 +1298,42 @@
     <section class="phases" id="phases">
         <div class="phases-content">
             <h2>
-                <span data-lang="es">El Plan de Implementación</span>
-                <span data-lang="en">The Implementation Plan</span>
+                <span class="lang-es">El Plan de Implementación</span>
+                <span class="lang-en">The Implementation Plan</span>
             </h2>
             
             <div class="phase-timeline">
                 <div class="phase-item">
                     <div class="phase-marker">1</div>
                     <div class="phase-content">
-                        <h3 data-lang="es">Sofia para Vanilla Spoon Franchising</h3>
-                        <h3 data-lang="en">Sofia for Vanilla Spoon Franchising</h3>
-                        <div class="phase-time" data-lang="es">Semana 1-2</div>
-                        <div class="phase-time" data-lang="en">Week 1-2</div>
-                        <p data-lang="es">Concierge de franquicias 24/7. Califica leads, agenda llamadas, envía información. Los inversionistas de Miami a las 2 AM ya no esperan.</p>
-                        <p data-lang="en">24/7 franchise concierge. Qualifies leads, schedules calls, sends info. Miami investors at 2 AM no longer wait.</p>
+                        <h3 class="lang-es">Sofia para Vanilla Spoon Franchising</h3>
+                        <h3 class="lang-en">Sofia for Vanilla Spoon Franchising</h3>
+                        <div class="phase-time lang-es">Semana 1-2</div>
+                        <div class="phase-time lang-en">Week 1-2</div>
+                        <p class="lang-es">Concierge de franquicias 24/7. Califica leads, agenda llamadas, envía información. Los inversionistas de Miami a las 2 AM ya no esperan.</p>
+                        <p class="lang-en">24/7 franchise concierge. Qualifies leads, schedules calls, sends info. Miami investors at 2 AM no longer wait.</p>
                     </div>
                 </div>
                 <div class="phase-item">
                     <div class="phase-marker">2</div>
                     <div class="phase-content">
-                        <h3 data-lang="es">Experiencia Dreamland</h3>
-                        <h3 data-lang="en">Dreamland Experience</h3>
-                        <div class="phase-time" data-lang="es">Semana 3-5</div>
-                        <div class="phase-time" data-lang="en">Week 3-5</div>
-                        <p data-lang="es">Reservaciones de fiestas, eventos corporativos, pedidos en los 7 restaurantes. Un solo canal inteligente para todo el complejo.</p>
-                        <p data-lang="en">Party bookings, corporate events, orders across all 7 restaurants. One intelligent channel for the entire complex.</p>
+                        <h3 class="lang-es">Experiencia Dreamland</h3>
+                        <h3 class="lang-en">Dreamland Experience</h3>
+                        <div class="phase-time lang-es">Semana 3-5</div>
+                        <div class="phase-time lang-en">Week 3-5</div>
+                        <p class="lang-es">Reservaciones de fiestas, eventos corporativos, pedidos en los 7 restaurantes. Un solo canal inteligente para todo el complejo.</p>
+                        <p class="lang-en">Party bookings, corporate events, orders across all 7 restaurants. One intelligent channel for the entire complex.</p>
                     </div>
                 </div>
                 <div class="phase-item">
                     <div class="phase-marker">3</div>
                     <div class="phase-content">
-                        <h3 data-lang="es">Centro de Comando Safie</h3>
-                        <h3 data-lang="en">Safie Command Center</h3>
-                        <div class="phase-time" data-lang="es">Semana 6-8</div>
-                        <div class="phase-time" data-lang="en">Week 6-8</div>
-                        <p data-lang="es">Dashboard unificado. Inteligencia de todas las propiedades. Alertas proactivas. Tu imperio, una sola vista.</p>
-                        <p data-lang="en">Unified dashboard. Intelligence from all properties. Proactive alerts. Your empire, one view.</p>
+                        <h3 class="lang-es">Centro de Comando Safie</h3>
+                        <h3 class="lang-en">Safie Command Center</h3>
+                        <div class="phase-time lang-es">Semana 6-8</div>
+                        <div class="phase-time lang-en">Week 6-8</div>
+                        <p class="lang-es">Dashboard unificado. Inteligencia de todas las propiedades. Alertas proactivas. Tu imperio, una sola vista.</p>
+                        <p class="lang-en">Unified dashboard. Intelligence from all properties. Proactive alerts. Your empire, one view.</p>
                     </div>
                 </div>
             </div>
@@ -1258,43 +1344,67 @@
     <section class="cta" id="cta">
         <div class="cta-content">
             <h2>
-                <span data-lang="es">¿Cuántas franquicias más tienen que <em>no contestar</em> antes de actuar?</span>
-                <span data-lang="en">How many more franchise inquiries have to go <em>unanswered</em> before you act?</span>
+                <span class="lang-es">¿Cuántas franquicias más tienen que <em>no contestar</em> antes de actuar?</span>
+                <span class="lang-en">How many more franchise inquiries have to go <em>unanswered</em> before you act?</span>
             </h2>
-            <p data-lang="es">15 minutos. Sin compromiso. Te muestro exactamente cómo Sofia captura el lead de Texas mientras tu equipo duerme.</p>
-            <p data-lang="en">15 minutes. No commitment. I'll show you exactly how Sofia captures the Texas lead while your team sleeps.</p>
+            <p class="lang-es">15 minutos. Sin compromiso. Te muestro exactamente cómo Sofia captura el lead de Texas mientras tu equipo duerme.</p>
+            <p class="lang-en">15 minutes. No commitment. I'll show you exactly how Sofia captures the Texas lead while your team sleeps.</p>
             
             <div class="cta-buttons">
                 <a href="https://wa.me/17024092818?text=Hola%20Sergio,%20vi%20la%20propuesta%20para%20Vanilla%20Spoon.%20Quiero%20agendar%20una%20demo." class="cta-primary">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                     </svg>
-                    <span data-lang="es">Agendar Demo por WhatsApp</span>
-                    <span data-lang="en">Book Demo via WhatsApp</span>
+                    <span class="lang-es">Agendar Demo por WhatsApp</span>
+                    <span class="lang-en">Book Demo via WhatsApp</span>
                 </a>
-                <a href="/cdn-cgi/l/email-protection#35455d5c59755854565d5c5b50585c5b511b5c5a0a4640575f505641087150585a100705665a535c541007051810070563545b5c59595410070566455a5a5b" class="cta-secondary">
-                    <span data-lang="es">Enviar Email</span>
-                    <span data-lang="en">Send Email</span>
+                <a href="mailto:sergio@machinemind.io?subject=Demo%20Sofia%20-%20Vanilla%20Spoon%20Franchise" class="cta-secondary">
+                    <span class="lang-es">Enviar Email</span>
+                    <span class="lang-en">Send Email</span>
                 </a>
             </div>
         </div>
     </section>
     
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 MachineMind. Propuesta exclusiva para Safie Empire.</p>
+    </footer>
+    
     <!-- WhatsApp Float -->
-    <a href="https://wa.me/17024092818?text=Hola%20Sergio,%20vi%20la%20propuesta.%20Quiero%20saber%20más." class="cta-whatsapp">
+    <a href="https://wa.me/17024092818?text=Hola%20Sergio,%20vi%20la%20propuesta.%20Quiero%20saber%20más." class="cta-whatsapp" aria-label="Chat on WhatsApp">
         <svg viewBox="0 0 24 24">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
         </svg>
     </a>
     
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-        // Language toggle
+    <script>
+        // Language toggle - FIXED
         function setLang(lang) {
-            document.body.className = lang;
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
-            });
+            if (lang === 'en') {
+                document.body.classList.add('en');
+            } else {
+                document.body.classList.remove('en');
+            }
+            
+            // Update button states
+            document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            
+            // Store preference
+            localStorage.setItem('safie-lang', lang);
         }
+        
+        // Load saved language preference
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('safie-lang');
+            if (savedLang) {
+                setLang(savedLang);
+            }
+            
+            // Initialize chat animation
+            initChatAnimation();
+        });
         
         // Scroll effects
         const navbar = document.getElementById('navbar');
@@ -1302,8 +1412,10 @@
         const messages = document.querySelectorAll('.message');
         const phaseItems = document.querySelectorAll('.phase-item');
         
+        let chatAnimated = false;
+        
         function handleScroll() {
-            // Navbar
+            // Navbar shadow
             if (window.scrollY > 100) {
                 navbar.classList.add('scrolled');
             } else {
@@ -1313,8 +1425,8 @@
             // Stat cards animation
             statCards.forEach((card, index) => {
                 const rect = card.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.8) {
-                    setTimeout(() => card.classList.add('visible'), index * 200);
+                if (rect.top < window.innerHeight * 0.85) {
+                    setTimeout(() => card.classList.add('visible'), index * 150);
                 }
             });
             
@@ -1322,45 +1434,57 @@
             messages.forEach((msg, index) => {
                 const rect = msg.getBoundingClientRect();
                 if (rect.top < window.innerHeight * 0.9) {
-                    setTimeout(() => msg.classList.add('visible'), index * 500);
+                    setTimeout(() => msg.classList.add('visible'), index * 400);
                 }
             });
             
             // Phase items animation
             phaseItems.forEach((item, index) => {
                 const rect = item.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.8) {
-                    setTimeout(() => item.classList.add('visible'), index * 300);
+                if (rect.top < window.innerHeight * 0.85) {
+                    setTimeout(() => item.classList.add('visible'), index * 200);
                 }
             });
+            
+            // Chat animation trigger
+            const demoSection = document.getElementById('demo');
+            if (demoSection) {
+                const rect = demoSection.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.5 && !chatAnimated) {
+                    chatAnimated = true;
+                    initChatAnimation();
+                }
+            }
+        }
+        
+        function initChatAnimation() {
+            const chatMessages = document.querySelectorAll('.chat-message');
+            const typing = document.getElementById('typing');
+            
+            chatMessages.forEach((msg, index) => {
+                setTimeout(() => {
+                    msg.classList.add('show');
+                }, index * 800);
+            });
+            
+            // Show typing indicator after all messages
+            setTimeout(() => {
+                if (typing) typing.classList.add('show');
+            }, chatMessages.length * 800 + 500);
         }
         
         window.addEventListener('scroll', handleScroll);
-        handleScroll();
+        
+        // Initial check
+        setTimeout(handleScroll, 100);
         
         // Smooth scroll to section
         function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
         }
-        
-        // Counter animation for ROI
-        function animateValue(element, start, end, duration) {
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                const value = Math.floor(progress * (end - start) + start);
-                element.textContent = value.toLocaleString();
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
-            };
-            window.requestAnimationFrame(step);
-        }
-        
-        // Intersection Observer for ROI section
-        const roiSection = document.getElementById('roi');
-        const roiObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Animate numbers
+    </script>
+</body>
+</html>
