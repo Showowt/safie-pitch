@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simmer Down × MachineMind | AI Concierge Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --teal: #2DD4BF;
+            --teal-dark: #14B8A6;
+            --flame-orange: #F97316;
+            --flame-red: #EF4444;
+            --bg-dark: #0A0A0B;
+            --bg-card: #141416;
+            --bg-elevated: #1C1C1F;
+            --text-primary: #FAFAFA;
+            --text-secondary: #A1A1AA;
+            --text-muted: #71717A;
+            --whatsapp-green: #25D366;
+            --whatsapp-bg: #111B21;
+            --whatsapp-bubble-out: #005C4B;
+            --whatsapp-bubble-in: #202C33;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 0;
+            background: linear-gradient(to bottom, var(--bg-dark), transparent);
+            backdrop-filter: blur(20px);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--flame-orange), var(--flame-red));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            color: var(--bg-dark);
+            padding: 12px 28px;
+            border-radius: 100px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(45, 212, 191, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.15) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%);
+            animation: pulse 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-elevated);
+            border: 1px solid rgba(45, 212, 191, 0.3);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            color: var(--teal);
+            margin-bottom: 24px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .hero-badge::before {
+            content: '🔥';
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            animation: slideUp 0.8s ease-out 0.1s both;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--teal), var(--flame-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 500px;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            animation: slideUp 0.8s ease-out 0.3s both;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--teal);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* WhatsApp Demo */
+        .whatsapp-demo {
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        .phone-frame {
+            background: #000;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 
+                0 50px 100px -20px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            max-width: 380px;
+            margin-left: auto;
+            position: relative;
+        }
+
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 30px;
+            background: #000;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            background: var(--whatsapp-bg);
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .wa-header {
+            background: #1F2C34;
+            padding: 50px 16px 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .wa-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .wa-contact {
+            flex: 1;
+        }
+
+        .wa-name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .wa-status {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .wa-chat {
+            padding: 16px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .wa-message {
+            max-width: 85%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            animation: messageIn 0.4s ease-out both;
+        }
+
+        @keyframes messageIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .wa-message.incoming {
+            background: var(--whatsapp-bubble-in);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+
+        .wa-message.outgoing {
+            background: var(--whatsapp-bubble-out);
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .wa-message .time {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.5);
+            float: right;
+            margin-left: 8px;
+            margin-top: 4px;
+        }
+
+        .wa-typing {
+            display: flex;
+            gap: 4px;
+            padding: 12px;
+            background: var(--whatsapp-bubble-in);
+            border-radius: 8px;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+
+        .wa-typing span {
+            width: 8px;
+            height: 8px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: typing 1.4s ease-in-out infinite;
+        }
+
+        .wa-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .wa-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-4px); }
+        }
+
+        .wa-input {
+            background: #1F2C34;
+            padding: 8px 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .wa-input-field {
+            flex: 1;
+            background: var(--whatsapp-bubble-in);
+            border: none;
+            border-radius: 20px;
+            padding: 10px 16px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .wa-send {
+            width: 40px;
+            height: 40px;
+            background: var(--whatsapp-green);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: var(--teal);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 60px;
+            max-width: 600px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--teal), var(--flame-orange));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(45, 212, 191, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(45, 212, 191, 0.2), rgba(249, 115, 22, 0.1));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Impact Section */
+        .impact {
+            padding: 120px 0;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-card) 50%, var(--bg-dark) 100%);
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+
+        .impact-card {
+            text-align: center;
+            padding: 40px 24px;
+            background: var(--bg-elevated);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .impact-card:hover {
+            transform: scale(1.05);
+            border-color: var(--teal);
+        }
+
+        .impact-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--teal), var(--flame-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .impact-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Locations Section */
+        .locations {
+            padding: 120px 0;
+        }
+
+        .locations-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .location-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .location-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .location-item:hover {
+            border-color: var(--teal);
+            transform: translateX(8px);
+        }
+
+        .location-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--flame-orange), var(--flame-red));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .location-info h4 {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .location-info p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .cta p {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            color: var(--bg-dark);
+            padding: 20px 48px;
+            border-radius: 100px;
+            font-size: 1.125rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(45, 212, 191, 0.4);
+        }
+
+        .cta-button svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content,
+            .locations-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .impact-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .phone-frame {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .features-grid,
+            .impact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            nav .logo span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">🔥</div>
+                <span>Simmer Down × MachineMind</span>
+            </div>
+            <a href="#contact" class="nav-cta">Hablar con Nosotros</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">Demo Exclusiva para Simmer Down</div>
+                    <h1>Tu Concierge de IA<br><span>en WhatsApp</span></h1>
+                    <p class="hero-description">
+                        Reservaciones, pedidos, eventos, y lealtad — todo automatizado. 
+                        Un asistente inteligente que conoce cada ubicación y cada cliente.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <div class="stat-value">4</div>
+                            <div class="stat-label">Ubicaciones</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">20.5K</div>
+                            <div class="stat-label">Seguidores</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">24/7</div>
+                            <div class="stat-label">Disponibilidad</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="whatsapp-demo">
+                    <div class="phone-frame">
+                        <div class="phone-screen">
+                            <div class="wa-header">
+                                <div class="wa-avatar">SD</div>
+                                <div class="wa-contact">
+                                    <div class="wa-name">Simmer Down 🔥</div>
+                                    <div class="wa-status">en línea</div>
+                                </div>
+                            </div>
+                            <div class="wa-chat" id="chat">
+                                <!-- Messages will be populated by JS -->
+                            </div>
+                            <div class="wa-input">
+                                <input type="text" class="wa-input-field" placeholder="Escribe un mensaje..." id="userInput">
+                                <button class="wa-send" onclick="sendMessage()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="section-label">Capacidades</div>
+            <h2 class="section-title">Todo lo que necesita Simmer Down, automatizado</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h3>Multi-Ubicación Inteligente</h3>
+                    <p>El asistente conoce cada sucursal: Santa Ana, San Benito, Lago de Coatepeque, y Surf City. Redirige automáticamente según la ubicación del cliente.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎫</div>
+                    <h3>Eventos & Reservaciones</h3>
+                    <p>Gestión automática de conciertos, Navifest, y noches especiales. Venta de tickets, confirmaciones, y recordatorios — sin intervención manual.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>SimmerLovers 2.0</h3>
+                    <p>Transforma tu programa de lealtad. Puntos automáticos, canjes por WhatsApp, niveles VIP, y recompensas personalizadas para tus 89+ miembros.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛵</div>
+                    <h3>Delivery Integrado</h3>
+                    <p>Pedidos directos por WhatsApp con menú interactivo. Sin comisiones de terceros. Mínimo de $15 USD automáticamente validado.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Marketing Automatizado</h3>
+                    <p>Campañas segmentadas a tu base de clientes. Promociones de cumpleaños, recordatorios de eventos, y re-engagement automático.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Analytics en Tiempo Real</h3>
+                    <p>Dashboard con métricas de cada ubicación, preferencias de clientes, horarios pico, y productos más vendidos. Decisiones basadas en datos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="impact">
+        <div class="container">
+            <div class="section-label" style="text-align: center; display: block;">Proyección de Impacto</div>
+            <h2 class="section-title" style="text-align: center; margin: 0 auto 60px;">Números que transforman operaciones</h2>
+            
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <div class="impact-value">+35%</div>
+                    <div class="impact-label">Incremento en reservaciones</div>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-value">-60%</div>
+                    <div class="impact-label">Tiempo en atención manual</div>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-value">+25%</div>
+                    <div class="impact-label">Ventas por delivery directo</div>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-value">3x</div>
+                    <div class="impact-label">Engagement SimmerLovers</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="locations">
+        <div class="container">
+            <div class="locations-content">
+                <div>
+                    <div class="section-label">Cobertura</div>
+                    <h2 class="section-title">Un sistema, todas tus ubicaciones</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 32px;">
+                        El concierge de IA entiende el contexto de cada sucursal: 
+                        horarios específicos, menús locales, eventos exclusivos, 
+                        y capacidad de cada venue.
+                    </p>
+                </div>
+                
+                <div class="location-list">
+                    <div class="location-item">
+                        <div class="location-icon">🏛️</div>
+                        <div class="location-info">
+                            <h4>Santa Ana Centro</h4>
+                            <p>Frente a Catedral • Flagship</p>
+                        </div>
+                    </div>
+                    <div class="location-item">
+                        <div class="location-icon">🏙️</div>
+                        <div class="location-info">
+                            <h4>San Benito, San Salvador</h4>
+                            <p>Zona Rosa • Premium</p>
+                        </div>
+                    </div>
+                    <div class="location-item">
+                        <div class="location-icon">🌊</div>
+                        <div class="location-info">
+                            <h4>Lago de Coatepeque</h4>
+                            <p>Vista al lago • Weekend Spot</p>
+                        </div>
+                    </div>
+                    <div class="location-item">
+                        <div class="location-icon">🏄</div>
+                        <div class="location-info">
+                            <h4>Surf City - Casa Santa Emilia</h4>
+                            <p>Playa El Tunco • Beach Vibes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="contact">
+        <div class="container">
+            <div class="cta-content">
+                <div class="section-label">Siguiente Paso</div>
+                <h2>¿Listos para automatizar<br>la experiencia Simmer Down?</h2>
+                <p>Una llamada de 30 minutos. Sin compromiso. Te mostramos exactamente cómo funcionaría para ustedes.</p>
+                <a href="https://wa.me/573001234567?text=Hola!%20Vi%20el%20demo%20de%20MachineMind%20para%20Simmer%20Down.%20Me%20interesa%20saber%20más." class="cta-button" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                    Agendar Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-brand">
+                <span>🔥</span>
+                MachineMind × Simmer Down
+            </div>
+            <p>Demo exclusiva • Enero 2026</p>
+        </div>
+    </footer>
+
+    <script>
+        const chatMessages = [
+            { type: 'incoming', text: '¡Hola! 🔥 Soy el asistente de Simmer Down. ¿En qué puedo ayudarte hoy?', delay: 500 },
+            { type: 'outgoing', text: 'Quiero reservar para el concierto de Tito Paiz', delay: 2000 },
+            { type: 'typing', delay: 2500 },
+            { type: 'incoming', text: '¡Excelente elección! 🎵 El concierto de Tito Paiz Latin Jazz Band es el Jueves 11 de Diciembre a las 7:00 PM en Santa Ana.', delay: 4000 },
+            { type: 'incoming', text: '¿Para cuántas personas te reservo? También puedo agregarte puntos SimmerLovers si me das tu número de membresía 🏆', delay: 5500 },
+            { type: 'outgoing', text: 'Somos 4, mi código es SL-2847', delay: 7500 },
+            { type: 'typing', delay: 8000 },
+            { type: 'incoming', text: '¡Perfecto! 🎉 Reservación confirmada:\n\n📅 11 Dic • 7:00 PM\n📍 Santa Ana Centro\n👥 4 personas\n🏆 +100 puntos SimmerLovers\n\nTe envío confirmación por email. ¿Desean ordenar algo del menú de antemano?', delay: 9500 },
+        ];
+
+        const chat = document.getElementById('chat');
+        let messageIndex = 0;
+
+        function addMessage(msg) {
+            const existing = document.querySelector('.wa-typing');
+            if (existing) existing.remove();
+
+            if (msg.type === 'typing') {
+                const typing = document.createElement('div');
+                typing.className = 'wa-typing';
+                typing.innerHTML = '<span></span><span></span><span></span>';
+                chat.appendChild(typing);
+            } else {
+                const bubble = document.createElement('div');
+                bubble.className = `wa-message ${msg.type}`;
+                bubble.innerHTML = `${msg.text.replace(/\n/g, '<br>')}<span class="time">${new Date().toLocaleTimeString('es', {hour: '2-digit', minute: '2-digit'})}</span>`;
+                chat.appendChild(bubble);
+            }
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function playConversation() {
+            if (messageIndex < chatMessages.length) {
+                const msg = chatMessages[messageIndex];
+                setTimeout(() => {
+                    addMessage(msg);
+                    messageIndex++;
+                    playConversation();
+                }, msg.delay - (messageIndex > 0 ? chatMessages[messageIndex - 1].delay : 0));
+            }
+        }
+
+        // Start conversation when page loads
+        setTimeout(playConversation, 1000);
+
+        // Handle user input
+        const userInput = document.getElementById('userInput');
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            addMessage({ type: 'outgoing', text: text });
+            input.value = '';
+
+            // Simulate AI response
+            setTimeout(() => {
+                addMessage({ type: 'typing' });
+                setTimeout(() => {
+                    const responses = [
+                        '¡Claro! Te ayudo con eso. ¿Cuál ubicación prefieres? 📍',
+                        'Perfecto, déjame verificar la disponibilidad... 🔍',
+                        '¡Excelente! ¿Tienes tu código SimmerLovers para acumular puntos? 🏆',
+                        'Tenemos promoción especial hoy: 2x1 en pizzas los martes 🍕'
+                    ];
+                    addMessage({ type: 'incoming', text: responses[Math.floor(Math.random() * responses.length)] });
+                }, 1500);
+            }, 500);
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .impact-card, .location-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
